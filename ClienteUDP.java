@@ -1,5 +1,7 @@
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,7 +11,7 @@ import java.util.Date;
 import java.net.InetAddress;
 
 public class ClienteUDP{
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException{
         DatagramSocket clientSocket = new DatagramSocket();
         //Criando o socket UDP, ouvindo numa porta random
         InetAddress IPServer = InetAddress.getByName("localhost");
