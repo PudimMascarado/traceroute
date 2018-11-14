@@ -15,7 +15,7 @@ public class ServidorUDP{
     public static void main (String args[]) throws IOException{
         try{
             DatagramSocket serverSocket = new DatagramSocket (5000);
-            byte[] receiveData = new byte[1];
+            byte[] receiveData = new byte[100];
             byte[] mandaDados;
             InetAddress ClienteIP = null;
             int portaUDP;
@@ -33,25 +33,26 @@ public class ServidorUDP{
                 //Pegando o IP do pacote que chegou
                 portaUDP = receivePacket.getPort();
                 //Pegando a porta do pacote que chegou
-                mandaDados = ("2").getBytes();
-                if (recebido.toLowerCase() == "oi"){
+                System.out.print(recebido);
+                mandaDados = ("").getBytes();
+                if (recebido.toLowerCase().equals("oi")){
                 	mandaDados = ("Olá.").getBytes();
-                } else if (recebido.toLowerCase() == "tchau" || recebido.toLowerCase() == "xau" || recebido.toLowerCase() == "adeus") {
+                } else if (recebido.toLowerCase().equals("tchau") || recebido.toLowerCase().equals("xau")|| recebido.toLowerCase().equals("adeus")) {
                 	mandaDados = ("Até a próxima.").getBytes();
-                } else if (recebido.toLowerCase() == "bom dia") {
+                } else if (recebido.toLowerCase().equals("bom dia")) {
                 	mandaDados = ("Bom dia.").getBytes();
-                } else if (recebido.toLowerCase() == "boa tarde") {
+                } else if (recebido.toLowerCase().equals("boa tarde")) {
                 	mandaDados = ("Boa tarde.").getBytes();
-                } else if (recebido.toLowerCase() == "boa noite") {
+                } else if (recebido.toLowerCase().equals("boa noite")) {
                 	mandaDados = ("Boa noite.").getBytes();
-                } else if (recebido.toLowerCase() == "qual seu zap?") {
+                } else if (recebido.toLowerCase().equals("qual seu zap?")) {
                 	mandaDados = ("Só funciono em Telegram.").getBytes();
                 }
                 
                 //mandaDados = ("2").getBytes();
                 //Definindo dados que vão ser enviados
                 DatagramPacket sendPacket = new DatagramPacket(mandaDados, mandaDados.length, ClienteIP, portaUDP);
-                //Definindo os dados que vÃ£o ser enviados para o cliente e definindo para qual cliente vai enviar
+                //Definindo os dados que vão ser enviados para o cliente e definindo para qual cliente vai enviar
                 serverSocket.send(sendPacket);   
             }
         } catch(Exception e) {
