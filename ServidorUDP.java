@@ -26,13 +26,16 @@ public class ServidorUDP{
             while(true){
                 DatagramPacket receivePacket = new DatagramPacket (receiveData, receiveData.length);
                 //Definindo onde os dados recebidos do cliente vão ser armazenados
+                
                 serverSocket.receive(receivePacket);
                 String recebido = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 
                 ClienteIP = receivePacket.getAddress();
                 //Pegando o IP do pacote que chegou
+                
                 portaUDP = receivePacket.getPort();
                 //Pegando a porta do pacote que chegou
+                
                 System.out.print(recebido);
                 mandaDados = ("").getBytes();
                 if (recebido.toLowerCase().equals("oi")){
@@ -53,6 +56,7 @@ public class ServidorUDP{
                 //Definindo dados que vão ser enviados
                 DatagramPacket sendPacket = new DatagramPacket(mandaDados, mandaDados.length, ClienteIP, portaUDP);
                 //Definindo os dados que vão ser enviados para o cliente e definindo para qual cliente vai enviar
+                
                 serverSocket.send(sendPacket);   
             }
         } catch(Exception e) {
