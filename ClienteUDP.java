@@ -22,18 +22,23 @@ public class ClienteUDP{
 				
 				DatagramSocket clientSocket = new DatagramSocket();
 				//Criando o socket UDP, ouvindo numa porta random
+				
 				InetAddress IPServer = InetAddress.getByName("localhost");
 				byte[] sendData;
 				sendData = (entrada).getBytes();
 				//Definindo dados que vão ser enviados
+				
 				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPServer, 5000);
 				//Definindo os dados que vão ser enviados para o cliente e definindo para qual cliente vai enviar
+				
 				long tempoAntigo = System.nanoTime();
 				clientSocket.send(sendPacket);
 				//Enviando dados para o cliente
+				
 				byte[] receiveData = new byte[100];
 				DatagramPacket receivePacket = new DatagramPacket (receiveData, receiveData.length);
 				//Definindo onde os dados recebidos do cliente vão ser armazenados
+				
 				clientSocket.receive(receivePacket);
 				long tempoRecebido = System.nanoTime();
                 String recebidoServer = new String(receivePacket.getData(), 0, receivePacket.getLength());
