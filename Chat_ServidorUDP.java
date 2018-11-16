@@ -6,16 +6,37 @@ import java.net.DatagramSocket;
 import java.io.IOException;
 import java.util.Timer;
 
-public class Lista{
-  int IP;
-  int Porta;
-  Lista proximo;
+List <int, int> ClientePorta = new List<int, int>;
+
+public class boolean ThreadClientes(int ClienteUDP, int portaUDP, int contadorClientes){
+  new Thread(){
+    @Override
+    public void receberClientes(){
+      if (!ClientePorta.include(ClienteUDP, portaUDP)){
+        System.out.print("Cliente novo registrado: ");
+        System.out.print(contadorClientes);         
+        System.out.println();
+        contadorClientes++;
+        return True;
+      } else {
+        return False;
+      }
+    }
+  }.start();
 }
 
 public class Chat_ServidorUDP{
   public static void main (String[] args) throws IOException {
     try {
+      
       DatagramSocket serverSocket = new DatagramSocket (5000);
+      new Thread(){
+        @Override
+        public void receberClientes(){
+          List<int> Portas = 
+        }
+      }.start();
+      
       byte[] receiveData = new byte[100];
       byte[] mandaDados;
       InetAddress ClienteIP = null;
@@ -27,6 +48,8 @@ public class Chat_ServidorUDP{
       
       String mensagemCliente = "";
       
+      boolean jaEhCliente = false;
+      
       String Clientes[] = new String[100];
       
       while(true && !mensagemCliente.equals("Sair")){
@@ -37,8 +60,17 @@ public class Chat_ServidorUDP{
         String recebido = new String (receivePacket.getData(), 0, receivePacket.getLength());
         
         ClienteIP = receivePacket.getAddress();
-        
         portaUDP = receivePacket.getPort();
+        
+        DatagramPacket sendPacket = null;
+        
+        jaEhCliente = ThreadClientes(ClienteIP, portaUDP, contadorClientes);
+        
+        if (!jaEhCliente){
+           String informacao = "Servidor: Olá novo cliente";
+           informacao = informacao.getBytes();
+           sendPacket = new DatagramPacket (informacao, informacao.length)
+        }
         
         String ClientePorta = "" + ClienteIP + Porta;
         
