@@ -23,7 +23,9 @@ public class ServidorUDP{
             System.out.println("Aguardando cliente...");
             long tempoAntigo = System.currentTimeMillis();
 
-            while(true){
+            boolean encerrarConexao = false;
+            
+            while(true && encerrarConexao == false){
                 DatagramPacket receivePacket = new DatagramPacket (receiveData, receiveData.length);
                 //Definindo onde os dados recebidos do cliente vão ser armazenados
                 
@@ -54,12 +56,21 @@ public class ServidorUDP{
                 	mandaDados = ("Boa noite.").getBytes();
                 } else if (recebido.toLowerCase().equals("qual seu zap?")) {
                 	mandaDados = ("Só funciono em Telegram.").getBytes();
+                } else if (recebido.toLowerCase().equals("encerrar conexão")) {
+                	mandaDados = ("Encerrando conexão...").getBytes();
+                	encerrarConexao = true;
+                } else {
+                	mandaDados = ("Não entendi, tente outro comando.").getBytes();
                 }
                 
                 DatagramPacket sendPacket = new DatagramPacket(mandaDados, mandaDados.length, ClienteIP, portaUDP);
                 //Definindo os dados que vão ser enviados para o cliente e definindo para qual cliente vai enviar
                 
                 serverSocket.send(sendPacket);   
+                
+                if (encerrarConexao == true) {
+                	break;
+                }
             }
         } catch(Exception e) {
             System.out.println("Macacos me mordam! Bem, isso me deixou envergonhado: " + e);
