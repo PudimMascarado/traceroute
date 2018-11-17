@@ -13,7 +13,7 @@ import java.util.*;
 
 public class ServidorUDP{
     public static void main (String args[]) throws IOException{
-        try{
+       try {
             DatagramSocket serverSocket = new DatagramSocket (5000);
             byte[] receiveData = new byte[100];
             byte[] mandaDados;
@@ -36,8 +36,12 @@ public class ServidorUDP{
                 portaUDP = receivePacket.getPort();
                 //Pegando a porta do pacote que chegou
                 
+                System.out.print("Foi recebido o texto: ");
                 System.out.print(recebido);
+                System.out.println();
+                
                 mandaDados = ("").getBytes();
+                
                 if (recebido.toLowerCase().equals("oi")){
                 	mandaDados = ("Olá.").getBytes();
                 } else if (recebido.toLowerCase().equals("tchau") || recebido.toLowerCase().equals("xau")|| recebido.toLowerCase().equals("adeus")) {
@@ -52,8 +56,6 @@ public class ServidorUDP{
                 	mandaDados = ("Só funciono em Telegram.").getBytes();
                 }
                 
-                //mandaDados = ("2").getBytes();
-                //Definindo dados que vão ser enviados
                 DatagramPacket sendPacket = new DatagramPacket(mandaDados, mandaDados.length, ClienteIP, portaUDP);
                 //Definindo os dados que vão ser enviados para o cliente e definindo para qual cliente vai enviar
                 
