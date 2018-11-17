@@ -41,11 +41,17 @@ public class ClienteUDP{
 				clientSocket.receive(receivePacket);
 				long tempoRecebido = System.nanoTime();
                 		String recebidoServer = new String(receivePacket.getData(), 0, receivePacket.getLength());
-				
+				System.out.print("Servidor: ");
 				System.out.println(recebidoServer);
+				
+				
 				System.out.printf("Enviei no tempo: %d  \nRecebi no tempo: %d \nlogo:              ", tempoAntigo,tempoRecebido);
 				System.out.println(("RTT: " + ((tempoRecebido - tempoAntigo)/1000)));
 				//Calculando RTT e printando
+				
+				if (recebidoServer.equals("Encerrando conexão...")) {
+					break;
+				}
 			}
 		} catch (Exception e) {
 			System.out.println("Problema no Cliente, chefe!");
