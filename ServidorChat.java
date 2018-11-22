@@ -2,13 +2,41 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 
-int contador1, usuarios;
+int contador1, usuarios; DataInputStream entrada;
+
+public class Mensagem {
+    public String padrao = "";
+    public Socket padrao;
+
+    void receber(String padraoMensagem, Socket padraoMensagem){
+        DataInputStream DISMensagem = new DataInputStream(padraoMensagem.getIntputStream());
+    }
+
+    void enviar(String padraoMensagem, Socket padraoMensagem){
+        DataOutputStream DOSMensagem = new DataOutputStream(padraoMensagem.getOutputStream());
+    }
+}
 
 public class difusaoMensagem extends Thread {
-    void enviar(String paraTodos, int quantosTem){
-        for (contador1 = 0; contador1 < quantosTem; contador1++){
+    private Mensagem enviarMensagem;
+    public difusaoMensagem(String paraTodos, int quantosTem){
+        // Aqui vai ser aquele DataInput blah
+    }
+    
+    public void run(enviarMensagem){
+        enviarMensagem.enviar(enviarMensagem);
+    }
+}
 
-        } 
+
+public class captarMensagem extends Thread {
+    private Mensagem receberMensagem;
+    String captarMensagem(DataInputStream entrada){
+        // Aqui vai ser aquele DataInput blah
+    }
+
+    public void run(receberMensagem){
+        receberMensagem.receber(receberMensagem);
     }
 }
 
@@ -27,20 +55,15 @@ public class ServidorChat {
                     usuarios++; // Vai preenchendo usuários 
                                 // no array de sockets do server
                 }
-                // Funciona pra 2, então eu "replico" pra 100 usando 2 threads como base
-                for (contador1 = 0; contador1 < usuarios; contador1++){
-                    if (usuarios % 2 == 0){
-                        Thread a = new DataInputStream(socket[contador].getIntputStream());
-                        Thread b = new DataInputStream(socket[contador+1].getIntputStream());
-                        a.start(); b.start();
-                    } else {
-                        Thread a = new DataInputStream(socket[contador].getIntputStream());
-                        a.start();
-                        if (contador < usuarios){
-                            Thread b = DataInputStream(socket[contador+1].getIntputStream());
-                            b.start();
-                        }
-                    }
+
+                Mensagem cliente1 = new Mensagem();
+                Mensagem cliente2 = new Mensagem();
+                Thread a = new captarMensagem(cliente1);
+                Thread b = new captarMensagem(cliente2);
+                Thread x = new difusaoMensagem(cliente1);
+                Thread y = new difusaoMensagem(cliente2);
+
+                a.start(); b.start(); x.start(); y.start();
                 }
             }
         }
