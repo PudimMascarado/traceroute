@@ -57,8 +57,8 @@ class ReceberMsgs extends Thread {
                 System.out.printf("> "+inputMensagem2+"\n");
             }
         } catch (Exception e) {
-            System.out.print("Isso me deixou envergonhado: Erro em ReceberMsgs número ");
-            System.out.println(e);
+            //System.out.print("Isso me deixou envergonhado: Erro em ReceberMsgs número ");
+            //System.out.println(e);
         }   
     }
 }
@@ -81,10 +81,10 @@ public class ClienteChat {
             System.out.print("Bem vindo, insira seu username: "); usuario = in.nextLine(); saidaDados.writeUTF(usuario);
             System.out.println();
 
-            Cliente outro = new Cliente(destinatario, portaDefault);
-            Cliente eu = new Cliente(usuario, portaDefault);
+            Cliente outro = new Cliente(destinatario, portaSecundaria);
+            Cliente eu = new Cliente(usuario, portaTerciaria);
 
-            System.out.print("Estamos aguardando o outro cliente iniciar o Chat...");
+            System.out.println("Estamos aguardando o outro cliente iniciar o Chat...");
 
             Thread paraReceber = new ReceberMsgs(eu, outro);
             Thread paraEnviar = new EnvioMsgs(outro);
