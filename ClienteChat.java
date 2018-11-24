@@ -7,10 +7,12 @@ import java.time.*;
 class Cliente {
     public String nomeCliente;
     public int portaCliente;
+
     public Cliente(String nomeCliente, int portaCliente){
         this.nomeCliente = nomeCliente;
         this.portaCliente = portaCliente;
     }
+    // Construtor básico
 }
 
 class EnvioMsgs extends Thread {
@@ -34,6 +36,7 @@ class EnvioMsgs extends Thread {
             System.out.println(e);
         }
     }
+    // Estrutura da thread para execução de enviar mensagens
 }
 
 class ReceberMsgs extends Thread {
@@ -44,6 +47,7 @@ class ReceberMsgs extends Thread {
         this.ele = ele;
         this.eu = eu;
     }
+    // Construtor padrão
 
     public void run(){
         try {
@@ -57,40 +61,65 @@ class ReceberMsgs extends Thread {
                 System.out.printf("> "+inputMensagem2+"\n");
             }
         } catch (Exception e) {
-            //System.out.print("Isso me deixou envergonhado: Erro em ReceberMsgs número ");
-            //System.out.println(e);
+            System.out.print("Isso me deixou envergonhado: Erro em ReceberMsgs número ");
+            System.out.println(e);
         }   
     }
+    // Estrutura da thread para execução de receber mensagens
 }
 
 public class ClienteChat {
     public static void main(String args[]){
         int portaDefault = 1001;
-        int portaSecundaria = 1002;
-        int portaTerciaria = 1003;
+        int portaSecundaria = -1;
+        int portaTerciaria = -1;
         String usuario = "", destinatario = "", mensagem = "";
         String endereco = "localhost";
 
-        Scanner in = new Scanner (System.in);
+        // Precisamos da porta do servidor, de uma para cada cliente, e os nomes dos clientes
+
+        Scanner in = new Scanner(System.in);
 
         try {
             Socket conectarServer = new Socket(endereco, portaDefault);
             DataOutputStream saidaDados = new DataOutputStream(conectarServer.getOutputStream());
             DataInputStream entradaDados = new DataInputStream(conectarServer.getInputStream());
 
-            System.out.print("Bem vindo, insira seu username: "); usuario = in.nextLine(); saidaDados.writeUTF(usuario);
-            System.out.println();
+            System.out.printf("Bem vindoa rede da ARPANet, \nantes de trocar mensagens, \nIDENTIFIQUE-SE, \nvocê é o Cliente: 1 ou 2 ? "); usuario = in.nextLine(); saidaDados.writeUTF(usuario);
+
+            if (usuario.toLowerCase().equals("cliente 1") || usuario.toLowerCase().equals("cliente 2")){
+                System.out.printf("Você preencheu de forma correta, \niremos prosseguir com a configuração do chat.\n");
+            } else {
+                System.out.printf("Ops, você não preencheu de forma correta, não garantimos o funcionamento \n, EXECUTE POR SUA CONTA E RISCO.\n");
+            }
+
+            usuario = in.nextLine();
+            saidaDados.writeUTF(usuario);
+
+            destinatario = entradaDados.readUTF();
+
+            String temp = entradaDados.readUTF();
+            portaSecundaria = Integer.parseInt(temp);
+            temp = entradaDados.readUTF();
+            portaTerciaria = Integer.parseInt(temp);
+            
+            // Até aqui recebi detalhes como nome, e porta
 
             Cliente outro = new Cliente(destinatario, portaSecundaria);
             Cliente eu = new Cliente(usuario, portaTerciaria);
+            
+            // Crio os clientes utilizando dados
 
-            System.out.println("Estamos aguardando o outro cliente iniciar o Chat...");
+            System.out.println("Estamos efetuando a ligação, em instantes comece a digitar...");
 
             Thread paraReceber = new ReceberMsgs(eu, outro);
             Thread paraEnviar = new EnvioMsgs(outro);
 
-            paraEnviar.start();
-            paraReceber.start();
+            // Crio as threads para manter a conexão funcionando
+
+            paraEnviar.start(); paraEnviar.sleep(6543);
+            // Inicio as threads e dou um tempo para o usuário abrir os consoles
+            paraReceber.start(); paraReceber.sleep(6543);
 
         } catch (Exception e) {
             System.out.print("Isso me deixou envergonhado: Erro no ClienteChat número ");
