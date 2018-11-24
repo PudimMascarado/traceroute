@@ -1,54 +1,69 @@
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.lang.*;
-import java.time.*;
+import java.io.*;   // Para lidar com inputs e outputs
+import java.net.*;  // Para Sockets e Sockets Server
+import java.util.*; // Para Scanner
+import java.lang.*; // Para exibir mensagens corretamente 
+import java.time.*; // Para exibir hora
 
 class ServidorChat {
-    public static void main(String[] args) {
-        String usuario1, usuario2;
+	public static void main(String[] args) {
+		String clienteUm = "1", clienteDois = "1";
+		boolean mensagemNaoVazia;
+		int portaServidor = 8787;
+		String usuario1Porta = "", usuario2Porta = "", mensagemEncaminhada;
 
-        int portaDefault = 1000;
-        String mensagemInterceptada, usuario1Porta, usuario2Porta;
+		try {
+			ServerSocket conexaoServidor = new ServerSocket(portaServidor);
+			
+			while(true) {
+				Socket servidor = conexaoServidor.accept(); 
+				System.out.println("Conexão iniciada com sucesso: ");
+				// Cliente se identificou como cliente 1 ou 2 de maneira corretamente
 
-        try {
-            ServerSocket servidor = new ServerSocket(portaDefault);
-            
-            while(true){
-                Socket aceitarConexao = servidor.accept();
-                System.out.println("Conexão iniciada com sucesso.");
-                mensagemInterceptada = "a";
+				
+				mensagemNaoVazia=false;
+				mensagemEncaminhada="";
+				while (!mensagemNaoVazia) {
+					DataInputStream inputTexto = new DataInputStream(servidor.getInputStream()); 
+					DataOutputStream outputTexto = new DataOutputStream(servidor.getOutputStream()); 
 
-                while(!mensagemInterceptada.equals("")){
-                    DataInputStream inputTexto = new DataInputStream(aceitarConexao.getInputStream());
-                    DataOutputStream outputTexto = new DataOutputStream(aceitarConexao.getOutputStream());
+					mensagemEncaminhada = inputTexto.readUTF();
+					
+					// Qual cliente se conectou 
+					
+					System.out.println(mensagemEncaminhada);
 
-                    // Cliente se identificou como cliente 1 ou 2 de maneira corretamente
-
-                    if(mensagemInterceptada.toLowerCase().equals("cliente 1")){
-                        mensagemInterceptada = "Cliente 1";
-                        usuario1Porta = "1234";
-                        usuario2Porta = "5678";
-                    } else {
-                        mensagemInterceptada = "Cliente 2";
-                        usuario1Porta = "5678";
-                        usuario2Porta = "1234";
-                    }
-
-                    mensagemInterceptada = inputTexto.readUTF();
-
-                    outputTexto.writeUTF(mensagemInterceptada);
-                    outputTexto.writeUTF(usuario2Porta); // Destino
-                    outputTexto.writeUTF(usuario1Porta); // Você
-
-                    if(mensagemInterceptada.toLowerCase().equals("encerrar conexão")){
-                        System.out.printf("Parece que o outro cliente quis encerrar a conexão!\n Adeus, ARPANet desligando!");
-                        break;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Isso me deixou envergonhado: Erro no servidor número ");
-        }
-    }
+					
+					if (mensagemEncaminhada.equals("1")) {
+						mensagemEncaminhada = "2";
+						usuario1Porta = "1234";
+						usuario2Porta = "5678";
+					} else {
+						mensagemEncaminhada = "1";
+						usuario1Porta = "5678";
+						usuario2Porta = "1234";
+					} 
+                    
+					outputTexto.writeUTF(mensagemEncaminhada);
+					outputTexto.writeUTF(usuario1Porta); // Destino
+					outputTexto.writeUTF(usuario2Porta); // Você
+					
+					if (mensagemEncaminhada != null) {
+						 mensagemNaoVazia=true; 
+						 //Se a mensagem foi recebida e não está vazia, recomece
+					}
+					
+					if (mensagemEncaminhada.toLowerCase().equals("encerrar conexão")) {
+						System.out.println("Ops, parece que alguém optou por encerrar a conexão");
+						break;
+					}
+					
+				}
+				servidor.close();
+				//Encerre as atividades do servidor
+			}
+		} catch (Exception e) {
+			System.out.print("Isso me deixou envergonhado: Erro no servidor número ");
+			System.out.println(e);
+		}
+	}
 }
