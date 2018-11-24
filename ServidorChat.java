@@ -10,9 +10,9 @@ class ServidorChat {
 
         int portaDefault = 1000;
         String mensagemInterceptada, usuario1Porta, usuario2Porta;
-        ServerSocket servidor = new ServerSocket(portaDefault);
-        
+
         try {
+            ServerSocket servidor = new ServerSocket(portaDefault);
             
             while(true){
                 Socket aceitarConexao = servidor.accept();
