@@ -6,7 +6,7 @@ import java.time.*; // Para exibir hora
 
 class ServidorChat {
 	public static void main(String[] args) {
-		String clienteUm = "1", clienteDois = "1";
+		String clienteUm = "1", clienteDois = "2";
 		boolean mensagemNaoVazia;
 		int portaServidor = 8787;
 		String usuario1Porta = "", usuario2Porta = "", mensagemEncaminhada;
@@ -58,8 +58,6 @@ class ServidorChat {
 					}
 					
 				}
-				servidor.close();
-				//Encerre as atividades do servidor
 			}
 		} catch (Exception e) {
 			System.out.print("Isso me deixou envergonhado: Erro no servidor número ");
