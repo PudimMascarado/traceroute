@@ -46,7 +46,9 @@ public class Receptor {
 	private void avancarJanela(){
 		while(true) {
 			if(janelaACKs[0] == 1) {
-				// Se o primeiro foi recebido
+				// Se o primeiro valor da janela foi recebido:
+				// Esse primeiro vai sendo alterado conforme
+				// a janela anda
 				
 				for(int aJ = 0; aJ < maxTamanhoJanela - 1; aJ++) {
 					janelaACKs[aJ] = janelaACKs[aJ] + 1;
@@ -60,8 +62,7 @@ public class Receptor {
 				// então avançamos o "gargalo" para frente
 			} else {
 				break;
-				// Se não foi recebido, pode ser que seja último
-				// ou o primeiro
+				// Se não foi recebido (pode ser até que tenha acabado transmissão)
 			}
 		}
 	}
