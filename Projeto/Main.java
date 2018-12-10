@@ -13,6 +13,44 @@ public class Main {
 			 * compactar o arquivo, transformá-lo em
 			 * pacote (Datagram Packet) e fazer o envio
 			 * */
+			
+			// Trouxe isso do Compacta.java localizado na pasta Projetos
+			
+		    boolean CompactaArquivo(String enderecoArquivo, String nomeArquivoDentro){
+		        // Entrada: O endereço do arquivo, o qual usaremos para exportar o arquivo zipado
+		        try {
+		            FileInputStream entrada = new FileInputStream(enderecoArquivo);
+
+		            ZipOutputStream exportar = new ZipOutputStream(new FileOutputStream(enderecoArquivo));
+
+		            // Para nomear o arquivo dentro do arquivo Zip
+		            exportar.putNextEntry(new ZipEntry(nomeArquivoDentro));
+
+		            // Usando buffer pra gravar o arquivo efetivamente (não gravamos de uma vez só)
+		            byte[] buffer = new byte[1024];
+
+		            int contador;
+
+		            while(contador = in.read(buffer) > 0){
+		                exportar.write(buffer, 0, contador);
+		            } // Vai preenchendo o arquivo enquanto houver buffer
+
+		            exportar.close();
+		            entrada.close();
+		            
+		            return true;
+		        } catch (Exception naoPudeCompactar){
+		            System.out.println("Não consegui compactar o arquivo por alguma causa!")
+		            return false;
+		        }
+		        // Saída: um boolean dizendo se deu certo ou não
+		    }
+		    
+		    // Aqui vai o código para enviar o arquivo zipamos
+		    
+		}
+			
+			
 		} else if (EmissorOuReceptor == 2){
 			/* É um receptor, devemos receber fragmentos
 			 * montar o arquivo, descompactá-lo
