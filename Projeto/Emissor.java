@@ -14,7 +14,11 @@ public class Emissor {
 		this.portaEmissor = pE;
 		this.portaReceptor = pR;
 		Socket = new DatagramSocket(portaReceptor);
-		listaPacJanela = new LinkedList<Pacote>();
+		listaPacJanela = new LinkedList<Pacote>(); 
+		// Estrutura de dados para janela (pode ser Array também)
+		// Pode ser qualquer coisa que seja fácil de inserir sem
+		// ter que indicar exatamente a posição, tem que ser uma
+		// estrutura que tasque um .insira e ele saiba coloque.
 		janelaACKs[] = new int[maxTamanhoJanela];
 		
 		/* Construtor padrão contendo informações  
