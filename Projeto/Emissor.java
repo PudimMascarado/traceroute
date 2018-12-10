@@ -19,8 +19,8 @@ public class Emissor {
 		
 		/* Construtor padrão contendo informações  
 		 * necessárias para envio:
-		 * 	Tamanho da janela
-		 * 	Timeout (para re-envio)
+		 *  Tamanho da janela
+		 *  Timeout (para re-envio)
 		 *  Porta do emissor
 		 *  Porta do receptor 
 		 *  Socket padrão
