@@ -5,8 +5,8 @@ import java.util.zip.ZipOutputStream;
 
 // Código inpirado no: https://stackoverflow.com/questions/4773778/creating-zip-archive-in-java
 
-public class CriaCompacta {
-    boolean CriaArquivo(String nome){
+public class Compacta {
+    boolean Compacta(String nome){ // Antigo método de criar arquivo, não será mais usado
         try {
             
         } catch (Exception naoPudeCriar) {
