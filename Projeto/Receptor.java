@@ -14,11 +14,11 @@ public class Receptor {
 		this.portaReceptor = pR;
 		Socket = new DatagramSocket(portaReceptor);
                 /* Construtor padrão contendo informações
-		 * necessárias para receber
-		 *  Porta do emissor
-		 *  Porta do receptor
-		 *  Socket padrão
-		 *  Tamanho máximo da janela
+		 *  necessárias para receber
+		 *   Porta do emissor
+		 *   Porta do receptor
+		 *   Socket padrão
+		 *   Tamanho máximo da janela
 		 * */
 	}
 }
