@@ -1,6 +1,44 @@
 import java.util.Scanner;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+// Para zipagem:
+import java.util.zip.ZipFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
+
+boolean CompactaArquivo(String enderecoArquivo){
+	String nomeArquivoDentro = "arquivoZipado";
+	
+    // Entrada: O endereço do arquivo, o qual usaremos para exportar o arquivo zipado
+    try {
+        FileInputStream entrada = new FileInputStream(enderecoArquivo);
+
+        ZipOutputStream exportar = new ZipOutputStream(new FileOutputStream(enderecoArquivo));
+
+        // Para nomear o arquivo dentro do arquivo Zip
+        exportar.putNextEntry(new ZipEntry(nomeArquivoDentro));
+
+        // Usando buffer pra gravar o arquivo efetivamente (não gravamos de uma vez só)
+        byte[] buffer = new byte[1024];
+
+        int contador;
+
+        while(contador = in.read(buffer) > 0){
+            exportar.write(buffer, 0, contador);
+        } 
+        // Vai preenchendo o arquivo enquanto houver buffer
+
+        exportar.close();
+        entrada.close();
+        return true;
+        
+    } catch (Exception naoPudeCompactar){
+        System.out.println("Não consegui compactar o arquivo por alguma causa!")
+        return false;
+    }
+    // Saída: um boolean dizendo se deu certo ou não
+}
 
 public class Main {
 	public static void Main(String args[]){
@@ -14,39 +52,13 @@ public class Main {
 			 * pacote (Datagram Packet) e fazer o envio
 			 * */
 			
-			// Trouxe isso do Compacta.java localizado na pasta Projetos
-			
-		    boolean CompactaArquivo(String enderecoArquivo, String nomeArquivoDentro){
-		        // Entrada: O endereço do arquivo, o qual usaremos para exportar o arquivo zipado
-		        try {
-		            FileInputStream entrada = new FileInputStream(enderecoArquivo);
-
-		            ZipOutputStream exportar = new ZipOutputStream(new FileOutputStream(enderecoArquivo));
-
-		            // Para nomear o arquivo dentro do arquivo Zip
-		            exportar.putNextEntry(new ZipEntry(nomeArquivoDentro));
-
-		            // Usando buffer pra gravar o arquivo efetivamente (não gravamos de uma vez só)
-		            byte[] buffer = new byte[1024];
-
-		            int contador;
-
-		            while(contador = in.read(buffer) > 0){
-		                exportar.write(buffer, 0, contador);
-		            } // Vai preenchendo o arquivo enquanto houver buffer
-
-		            exportar.close();
-		            entrada.close();
-		            
-		            return true;
-		        } catch (Exception naoPudeCompactar){
-		            System.out.println("Não consegui compactar o arquivo por alguma causa!")
-		            return false;
-		        }
-		        // Saída: um boolean dizendo se deu certo ou não
-		    }
+			// Trouxe isso do Compacta.java localizado na pasta Projetos:
+			String localArquivo;
+			System.out.println("Qual o nome do arquivo a ser enviado (ex: arquivo.txt): ");
+			localArquivo = in.next();
+			Compacta(localArquivo);
 		    
-		    // Aqui vai o código para enviar o arquivo zipamos
+		    // Aqui vai o código para enviar o arquivo zipamos:
 		    
 		}
 			
